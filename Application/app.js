@@ -11,84 +11,16 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+//=========================================================================================
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-function init(){
-    console.log("Welcome to the team generator. Let's start with your info, Mr. Manager.")
-    inquirer.
-        prompt([
-            {
-                type: "input",
-                name: "name",
-                message: "What's your name?"
-            },
-            {
-                type: "input",
-                name: "id",
-                message: "What's your employee ID?"
-            },
-            {
-                type: "input",
-                name: "email",
-                message: "What's your email adress?"
-            },
-            {
-                type: "list",
-                name: "license",
-                message: "What kind of license should your project have?",
-                choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
-            },
-        ])
-}
-
-inquirer
-.prompt([
-    {
-        type: "input",
-        name: "name",
-        message: "What's your name?"
-    },
-    {
-        type: "input",
-        name: "id",
-        message: "What's your employee ID?"
-    },
-    {
-        type: "input",
-        name: "email",
-        message: "What's your email adress?"
-    },
-    {
-        type: "list",
-        name: "license",
-        message: "What kind of license should your project have?",
-        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
-    },
-    {
-        type: "input",
-        name: "installation",
-        message: "What command should be run to install dependencies?",
-        default: "npm i"
-    }
-])
-.then(function(response){
-    const filename = "README.md";
-    const generatedREADME =  generatedMarkdown(response)
-    fs.writeFileSync(filename, generatedMarkdown(response), function(err){
-        if (err) {
-            return console.log(err);
-        }
-
-        console.log("README.md generated")
-    });
-});
-
+//=========================================================================================
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+
+init();
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
@@ -105,3 +37,62 @@ inquirer
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+function init(){
+    let newEmployee = true
+    let employees = [];
+    console.log("Welcome to the team generator. Let's start with your info, Mr. Manager.");
+    let managerOb = new Manager(askManager());
+    employees.push(managerOb);
+    while(newEmployee = true){
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "nextEmployee",
+                message: "Let's talk about the next member of your team. What's their job?",
+                choices: ["Engineer", "Intern", "No more team members"]
+            }
+        ]).then(response => {
+            if(resonse === "Engineer") {
+                let employee = askEngineer();
+                employees.push(employee);
+            }else if(response === "Intern") {
+                let employee = askIntern();
+                employees.push(employee);
+            }else if (response === "No more team members") {
+                newEmployee = false;
+            }
+        })
+    }
+    render(employees);
+};
+
+async function askManager(){
+    let manager;
+    inquirer
+        .prompt(questions.managerQuestions)
+        .then(response => {
+            manager = response;
+        })
+    return manager;
+}
+
+async function askEngineer(){
+    let engineer;
+    inquirer
+        .prompt(questions.engineerQuestions)
+        .then(response => {
+            engineer = response;
+        })
+    return engineer;
+}
+
+async function askIntern(){
+    let intern;
+    inquirer
+        .prompt(questions.internQuestions)
+        .then(response => {
+            intern = response;
+        })
+    return intern;
+}
