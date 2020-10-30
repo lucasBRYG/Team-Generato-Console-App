@@ -16,5 +16,5 @@ You can check out a tutorial at https://drive.google.com/file/d/1Q0GzgwkR07-PruS
 
 ## Screencaptures
 
-![alt text](./application/assets/teamHomepage.png)
-![alt text](./application/assets/teamHTML.png)
+![Alt text](./Application/assets/teamHomepage.png)
+![alt text](./Application/assets/teamHTML.png)
