@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const questions = require("./lib/Prompts")
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -13,6 +14,77 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+function init(){
+    console.log("Welcome to the team generator. Let's start with your info, Mr. Manager.")
+    inquirer.
+        prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What's your name?"
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What's your employee ID?"
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "What's your email adress?"
+            },
+            {
+                type: "list",
+                name: "license",
+                message: "What kind of license should your project have?",
+                choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
+            },
+        ])
+}
+
+inquirer
+.prompt([
+    {
+        type: "input",
+        name: "name",
+        message: "What's your name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What's your employee ID?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What's your email adress?"
+    },
+    {
+        type: "list",
+        name: "license",
+        message: "What kind of license should your project have?",
+        choices: ["MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None"]
+    },
+    {
+        type: "input",
+        name: "installation",
+        message: "What command should be run to install dependencies?",
+        default: "npm i"
+    }
+])
+.then(function(response){
+    const filename = "README.md";
+    const generatedREADME =  generatedMarkdown(response)
+    fs.writeFileSync(filename, generatedMarkdown(response), function(err){
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("README.md generated")
+    });
+});
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
