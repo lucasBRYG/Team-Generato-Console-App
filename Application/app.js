@@ -20,8 +20,15 @@ const render = require("./lib/htmlRenderer");
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
-init();
+fs.writeFileSync("./output/team.html", init(), function(err) {
 
+    if (err) {
+      return console.log(err);
+    }
+  
+    console.log("HTML Rendered in output folder!");
+  
+  });
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
@@ -38,11 +45,10 @@ init();
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-function init(){
-    let newEmployee = true
+async function init(){
     let employees = [];
     console.log("Welcome to the team generator. Let's start with your info, Mr. Manager.");
-    let managerOb = new Manager(askManager());
+    let managerOb = await new Manager(askManager());
     employees.push(managerOb);
     while(newEmployee = true){
         inquirer.prompt([
@@ -53,7 +59,7 @@ function init(){
                 choices: ["Engineer", "Intern", "No more team members"]
             }
         ]).then(response => {
-            if(resonse === "Engineer") {
+            if(response === "Engineer") {
                 let employee = askEngineer();
                 employees.push(employee);
             }else if(response === "Intern") {
@@ -64,10 +70,10 @@ function init(){
             }
         })
     }
-    render(employees);
+    return employees
 };
 
-async function askManager(){
+function askManager(){
     let manager;
     inquirer
         .prompt(questions.managerQuestions)
@@ -77,7 +83,7 @@ async function askManager(){
     return manager;
 }
 
-async function askEngineer(){
+function askEngineer(){
     let engineer;
     inquirer
         .prompt(questions.engineerQuestions)
@@ -87,7 +93,7 @@ async function askEngineer(){
     return engineer;
 }
 
-async function askIntern(){
+function askIntern(){
     let intern;
     inquirer
         .prompt(questions.internQuestions)
