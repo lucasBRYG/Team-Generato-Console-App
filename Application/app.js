@@ -53,7 +53,7 @@ function askManager() {
         .prompt(questions.managerQuestions)
         .then(response => {
             let manager;
-            manager = new Manager(response);
+            manager = new Manager(response.name, response.id, response.email, response.officeNumber);
             employees.push(manager);
             getMember();
         });
@@ -64,7 +64,7 @@ function askEngineer() {
     inquirer
         .prompt(questions.engineerQuestions)
         .then(response => {
-            engineer = new Engineer(response);
+            engineer = new Engineer(response.name, response.id, response.email, response.github);
             employees.push(engineer)
             getMember();
         });
@@ -75,7 +75,7 @@ function askIntern() {
     inquirer
         .prompt(questions.internQuestions)
         .then(response => {
-            intern = new Intern(response);
+            intern = new Intern(response.name, response.id, response.email, response.school);
             employees.push(intern)
             getMember();
         });

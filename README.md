@@ -10,3 +10,11 @@ so that I have quick access to emails and GitHub profiles
 
 ```
 
+## Example
+
+You can check out a tutorial at https://drive.google.com/file/d/1Q0GzgwkR07-PruS7rpS3Xf2248sD_qKi/view
+
+## Screencaptures
+
+![alt text](./application/assets/teamHomepage.png)
+![alt text](./application/assets/teamHTML.png)
