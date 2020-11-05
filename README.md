@@ -10,6 +10,10 @@ so that I have quick access to emails and GitHub profiles
 
 ```
 
+## How to Use
+
+Open the folder containing the application and run "node app.js"
+
 ## Example
 
 You can check out a tutorial at https://drive.google.com/file/d/1Q0GzgwkR07-PruS7rpS3Xf2248sD_qKi/view
